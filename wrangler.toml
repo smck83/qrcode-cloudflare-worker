@@ -1,0 +1,5 @@
+name = "cloudflare-qrcode"
+main = "src/index.ts"
+compatibility_date = "2023-04-08"
+type = "webpack"
+node_compat = true
