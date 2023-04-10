@@ -1,6 +1,6 @@
 # qrcode-cloudflare-worker
 
-This is a serveless function on Cloudflare to generate QR Code using the [qr-image](https://www.npmjs.com/package/qr-imag) package.
+This is a serveless function on Cloudflare to generate QR Code using the [qr-image](https://www.npmjs.com/package/qr-image) package.
 
 Cloudflare Workers is a platform that allows developers to run their own code on Cloudflare's network of data centers.
 
