@@ -13,7 +13,7 @@ Cloudflare Workers is a platform that allows developers to run their own code on
 
 
 # How to use
-The endpoint expects a ~~POST~~ GET request with a body object {text:"your desired string to be turned to QR Code"}
+The endpoint expects a ~~POST~~ GET request with variable `message` set to the text e.g. `https://cloudflare-qrcode.<ur-account>.workers.dev/?message=https://github.com`
 
 
 
