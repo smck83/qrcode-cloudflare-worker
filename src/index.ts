@@ -32,7 +32,7 @@ const landing = `
 `
 
 async function fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-	if (request.method === "POST") {
+	if (request.method === "GET") {
 	  return generate(request)
 	}
 	return new Response(landing, {
