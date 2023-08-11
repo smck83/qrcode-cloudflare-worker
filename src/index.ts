@@ -8,49 +8,37 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-export interface Env {
-	// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
-	// MY_KV_NAMESPACE: KVNamespace;
-	//
-	// Example binding to Durable Object. Learn more at https://developers.cloudflare.com/workers/runtime-apis/durable-objects/
-	// MY_DURABLE_OBJECT: DurableObjectNamespace;
-	//
-	// Example binding to R2. Learn more at https://developers.cloudflare.com/workers/runtime-apis/r2/
-	// MY_BUCKET: R2Bucket;
-	//
-	// Example binding to a Service. Learn more at https://developers.cloudflare.com/workers/runtime-apis/service-bindings/
-	// MY_SERVICE: Fetcher;
-}
-
 const qr = require("qr-image")
 
 const landing = `
 <h1>QR Generator</h1>
-<p>This is a serveless function on Cloudflare to generate QR Code using the <a href="https://www.npmjs.com/package/qr-image">qr-image</a>. package. </p>
+<p>This is a serverless function on Cloudflare to generate QR Codes using the <a href="https://www.npmjs.com/package/qr-image">qr-image</a> package.</p>
 <h1>How to use</h1>
-<p>send a post request with json body {text: "your content to turn into qr code"} to the above link. The response is "Content-Type": "image/png" </p>
+<p>Send a GET request with a query parameter named "text" to this link. The response will be a QR code image.</p>
 `
 
-async function fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-	if (request.method === "GET") {
-	  return generate(request)
-	}
-	return new Response(landing, {
-		headers: {
-		  "Content-Type": "text/html"
-		}
-	})
+async function fetch(request: Request): Promise<Response> {
+  const url = new URL(request.url)
+  const text = url.searchParams.get("message")
+
+  if (text) {
+    return generate(text)
   }
-  
-  async function generate(request: Request): Promise<Response> {
-	const { text  }: { text: any } = await request.json()
-	console.log(text)
-	const headers = { 
-		"Content-Type": "image/png",
-		"Content-Disposition": "inline; filename=qrcode.png"
-	}
-	const qr_png = qr.imageSync(text || "you didn't send anything in the text object")
-	return new Response(qr_png, { headers })
+
+  return new Response(landing, {
+    headers: {
+      "Content-Type": "text/html"
+    }
+  })
+}
+
+async function generate(text: string): Promise<Response> {
+  const headers = { 
+    "Content-Type": "image/png",
+    "Content-Disposition": "inline; filename=qrcode.png"
   }
-  
-  export default { fetch }
+  const qr_png = qr.imageSync(text)
+  return new Response(qr_png, { headers })
+}
+
+export default { fetch }
