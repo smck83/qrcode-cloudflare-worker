@@ -14,7 +14,7 @@ const landing = `
 <h1>QR Generator</h1>
 <p>This is a serverless function on Cloudflare to generate QR Codes using the <a href="https://www.npmjs.com/package/qr-image">qr-image</a> package.</p>
 <h1>How to use</h1>
-<p>Send a GET request with a query parameter named "text" to this link. The response will be a QR code image.</p>
+<p>Send a GET request with a query parameter named "message" to this link. The response will be a QR code image.</p>
 `
 
 async function fetch(request: Request): Promise<Response> {
